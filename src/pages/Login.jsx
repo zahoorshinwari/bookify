@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+
+import React, { useEffect, useState } from 'react'
 import { useFirebase } from '../context/firebase';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -10,10 +12,18 @@ import { useFirebase } from '../context/firebase';
 function LoginPage() {
 
     const firebase = useFirebase();
+    const navigate = useNavigate();
 
     const [ email, setEmail ] = useState('')
     const [password, setPassword] = useState("")
-
+    
+    // this is used if user is logged in then navigate it into home 
+    useEffect(() => {
+        if(firebase.isLoggedIn) {
+            // navigate to home is the user is login
+            navigate('/')
+        } 
+    }, [firebase, navigate])    
 
     const handleSubmit = async(e) => {
         e.preventDefault();
