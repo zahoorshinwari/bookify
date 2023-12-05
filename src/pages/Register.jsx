@@ -20,21 +20,23 @@ function RegisterPage() {
     useEffect(() => {
       if(firebase.isLoggedIn) {
           // navigate to home is the user is login
-          navigate('/')
+          navigate('/register')
           
       }
   }, [firebase, navigate])   
 
+  
     const handleSubmit = async(e) => {
         e.preventDefault();
         console.log("Sign up a user...");
         const result = await firebase.signupUserWithEmailAndPassword(email, password) 
         console.log("successful" , result);
+
+        // Navigate to home page
+        navigate('/');
         setEmail('')
         setPassword('')
     }
-
-
 
 
 
@@ -43,6 +45,12 @@ function RegisterPage() {
         <h1 className='text-center border '>Register page</h1>
     <Form onSubmit={handleSubmit}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
+      <Form.Label>Name</Form.Label>
+        <Form.Control 
+            type="text" 
+            placeholder="Enter name" 
+            required
+            />
         <Form.Label>Email address</Form.Label>
         <Form.Control 
             type="email" 

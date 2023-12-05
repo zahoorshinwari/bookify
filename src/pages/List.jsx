@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from 'react';
+import { useFirebase } from '../context/firebase';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -7,13 +8,23 @@ import Form from 'react-bootstrap/Form';
 
 export default function ListingPage() {
 
+  const firebase = useFirebase()
+
     const [name, setName] = useState('')
     const [isbnNUmber, setisbnNumber] = useState('')
     const [price, setPrice] = useState('')
     const [coveredPic, setCoveredPic] = useState('')
 
 
-    const handleSubmit = () => {}
+    const handleSubmit = async (e) => {
+      e.preventDefault()
+      await firebase.handleCreateNewListing(name, isbnNUmber, price, coveredPic)
+      alert("successful.")
+      setName('')
+      setisbnNumber('')
+      setPrice('')
+      setCoveredPic(null)
+    }
 
   return (
     <div className='container mt-5'>
@@ -53,7 +64,7 @@ export default function ListingPage() {
         <Form.Label>Upload Picture </Form.Label>
         <Form.Control 
             onChange={p => setCoveredPic(p.target.files[0])}
-            value={coveredPic}
+            
             type="file" 
             
             />
