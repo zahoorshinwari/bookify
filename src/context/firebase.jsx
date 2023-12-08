@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState  } from 'react'
 import { initializeApp } from "firebase/app"
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged  } from "firebase/auth"
-import { addDoc, collection, getDocs, getFirestore } from 'firebase/firestore'
+import { addDoc, collection, doc, getDoc, getDocs, getFirestore, query, where } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 
 const FirebaseContext = createContext(null)
@@ -54,7 +54,7 @@ export const FirebaseProvider = (props) => {
     const isLoggedIn = user ? true : false
 
     // for checking that what data i have
-    console.log(user);
+    //console.log(user);
 
     // listing of data in firestore
     const handleCreateNewListing = async (name, isbnNUmber, price, coveredPic) => {
@@ -84,6 +84,36 @@ export const FirebaseProvider = (props) => {
         return getDownloadURL(ref(storage, path))
     }
 
+    // geting all the documents from the firebase
+    const getBookById = async (id) => {
+        const docRef = doc(firestore, 'books', id)
+        const result = await getDoc(docRef)
+        return result
+    }
+
+    // who will order the book or buy the book
+    const placeOrder = async(bookId, qty) => {
+        const collectionRef = collection(firestore, "books", bookId, "order")
+        const result = await addDoc(collectionRef, {
+            userId: user.uid,
+            userEmail: user.email,
+            displayName: user.displayName,
+            photoURL : user.photoURL,
+            qty
+        })
+        return result
+    }
+
+
+    // fetching the orders data
+    const fetchMyOrders = async(userId) => {
+        
+        const collectionRef = collection(firestore, "books")
+        const q = query(collectionRef, where("userID", "==", userId))
+        const result = await getDocs(q)
+        return result
+    }
+
     
     return <FirebaseContext.Provider 
     value={{
@@ -94,6 +124,9 @@ export const FirebaseProvider = (props) => {
             handleCreateNewListing,
             listAllBooks,
             getImageURL,
+            getBookById,
+            placeOrder,
+            fetchMyOrders
             }}
         >
 
