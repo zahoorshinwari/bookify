@@ -51,7 +51,7 @@ export const FirebaseProvider = (props) => {
         })
     } , [])
 
-    const isLoggedIn = user ? true : false
+    
 
     // for checking that what data i have
     //console.log(user);
@@ -106,14 +106,25 @@ export const FirebaseProvider = (props) => {
 
 
     // fetching the orders data
-    const fetchMyOrders = async(userId) => {
+    const fetchMyBooks = async(userId) => {
         
         const collectionRef = collection(firestore, "books")
-        const q = query(collectionRef, where("userID", "==", userId))
+        const q = query(collectionRef, where("userId", "==", userId))
         const result = await getDocs(q)
+        
         return result
     }
 
+
+    // getting the order details
+    const getOrders = (bookId) => {
+        const collectionRef = collection(firestore, 'books', bookId, 'order')
+        const result = getDocs(collectionRef)
+        return result
+    }
+
+
+    const isLoggedIn = user ? true : false
     
     return <FirebaseContext.Provider 
     value={{
@@ -126,7 +137,9 @@ export const FirebaseProvider = (props) => {
             getImageURL,
             getBookById,
             placeOrder,
-            fetchMyOrders
+            fetchMyBooks,
+            user,
+            getOrders,
             }}
         >
 

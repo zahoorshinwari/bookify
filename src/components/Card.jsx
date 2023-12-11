@@ -27,7 +27,7 @@ function BookCard(props) {
           This book has a title {props.name} and this book is sold by { props.displayName } and this book
           costs Rs. {props.price}.
         </Card.Text>
-        <Button onClick={e => navigate(`/books/view/${props.id}`)} variant="primary">View</Button>
+        <Button onClick={e => navigate(props.link)} variant="primary">View</Button>
       </Card.Body>
     </Card>
     </div>

@@ -20,7 +20,7 @@ function HomePage() {
         <h1 className='text-center '>All of the Books</h1>
         <CardGroup>
             {books.map((book) => (
-                <BookCard key={book.id} id={book.id} {...book.data()}/>
+                <BookCard link={`/books/view/${book.id}`} key={book.id} id={book.id} {...book.data()}/>
             ))}
         </CardGroup>
     </div>

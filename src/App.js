@@ -11,6 +11,7 @@ import ListingPage from './pages/List';
 import HomePage from './pages/Home';
 import BookDetailPage from './pages/Detail';
 import OrdersPage from './pages/ViewOrder';
+import ViewOrderDetails from './pages/ViewOrderDetails';
  
 
 
@@ -30,6 +31,7 @@ function App() {
           <Route path='/book/list' element={<ListingPage />}/>
           <Route path='/book/orders' element={<OrdersPage />}/>
           <Route path='/books/view/:bookId' element={<BookDetailPage />}/>
+          <Route path='/books/orders/:bookId' element={<ViewOrderDetails />}/>
         </Routes>
     </div>
     

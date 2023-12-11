@@ -20,7 +20,7 @@ function RegisterPage() {
     useEffect(() => {
       if(firebase.isLoggedIn) {
           // navigate to home is the user is login
-          navigate('/register')
+           navigate('/')
           
       }
   }, [firebase, navigate])   

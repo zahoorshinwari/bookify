@@ -21,7 +21,7 @@ function LoginPage() {
     useEffect(() => {
         if(firebase.isLoggedIn) {
             // navigate to home is the user is login
-            navigate('/')
+            //navigate('/')
         } 
     }, [firebase, navigate])    
 
